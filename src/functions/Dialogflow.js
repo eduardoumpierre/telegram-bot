@@ -7,7 +7,7 @@ export const getResponse = async message => {
 
   const credentials = {
     client_email: process.env.DIALOGFLOW_CLIENT_EMAIL,
-    private_key: process.env.DIALOGFLOW_PRIVATE_KEY,
+    private_key: process.env.DIALOGFLOW_PRIVATE_KEY.replace(/\\n/g, '\n'),
   };
 
   const sessionClient = new SessionsClient({
