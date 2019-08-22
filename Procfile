@@ -1,1 +1,1 @@
-worker: node -r esm -r dotenv/config index.js
+worker: npm start
