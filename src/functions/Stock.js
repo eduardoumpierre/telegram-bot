@@ -20,11 +20,11 @@ const formatResponse = stock => {
   const change = getChangeValue(formatValues(stock['09. change']), true);
   const changePercent = getChangeValue(stock['10. change percent']);
 
-  const formatedPrice = formatValues(price);
-  const formatedChangePercent = formatValues(changePercent);
+  const formattedPrice = formatValues(price);
+  const formattedChangePercent = formatValues(changePercent);
 
   return {
-    response: `${name}\r\n${formatedPrice} BRL\r\n${change} (${formatedChangePercent}%)`,
+    response: `${name}\r\n${formattedPrice} BRL\r\n${change} (${formattedChangePercent}%)`,
     options: setInlineKeyboard([
       {
         text: 'Ver mais informações',
