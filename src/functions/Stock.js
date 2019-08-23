@@ -34,7 +34,7 @@ const formatResponse = stock => {
   };
 };
 
-const formatValues = value => {
+const formatValue = value => {
   return parseFloat(value).toFixed(2).replace('.', ',');
 }
 
