@@ -17,11 +17,11 @@ const getChangeValue = (value, showIcon = false) => {
 const formatResponse = stock => {
   const name = stock['01. symbol'].split('.')[0];
   const price = stock['05. price'];
-  const change = getChangeValue(parseFloat(stock['09. change']).toFixed(2).replace('.', ','), true);
+  const change = getChangeValue(formatValues(stock['09. change']), true);
   const changePercent = getChangeValue(stock['10. change percent']);
 
-  const formatedPrice = parseFloat(price).toFixed(2).replace('.', ',');
-  const formatedChangePercent = parseFloat(changePercent).toFixed(2).replace('.', ',');
+  const formatedPrice = formatValues(price);
+  const formatedChangePercent = formatValues(changePercent);
 
   return {
     response: `${name}\r\n${formatedPrice} BRL\r\n${change} (${formatedChangePercent}%)`,
@@ -33,6 +33,10 @@ const formatResponse = stock => {
     ]),
   };
 };
+
+const formatValues = value => {
+  return parseFloat(value).toFixed(2).replace('.', ',');
+}
 
 export const getStockData = async (bot, msg, match) => {
   const {
