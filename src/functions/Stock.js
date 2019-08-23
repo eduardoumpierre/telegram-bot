@@ -17,11 +17,14 @@ const getChangeValue = (value, showIcon = false) => {
 const formatResponse = stock => {
   const name = stock['01. symbol'].split('.')[0];
   const price = stock['05. price'];
-  const change = getChangeValue(stock['09. change'], true);
+  const change = getChangeValue(formatValues(stock['09. change']), true);
   const changePercent = getChangeValue(stock['10. change percent']);
 
+  const formattedPrice = formatValues(price);
+  const formattedChangePercent = formatValues(changePercent);
+
   return {
-    response: `${name}\r\n${price} BRL\r\n${change} (${changePercent})`,
+    response: `${name}\r\n${formattedPrice} BRL\r\n${change} (${formattedChangePercent}%)`,
     options: setInlineKeyboard([
       {
         text: 'Ver mais informações',
@@ -30,6 +33,10 @@ const formatResponse = stock => {
     ]),
   };
 };
+
+const formatValue = value => {
+  return parseFloat(value).toFixed(2).replace('.', ',');
+}
 
 export const getStockData = async (bot, msg, match) => {
   const {
