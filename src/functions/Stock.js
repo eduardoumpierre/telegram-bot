@@ -23,6 +23,10 @@ const formatResponse = stock => {
   const formattedPrice = formatValue(price);
   const formattedChangePercent = formatValue(changePercent);
 
+  const formatValue = value => {
+    return parseFloat(value).toFixed(2).replace('.', ',');
+  }
+
   return {
     response: `${name}\r\n${formattedPrice} BRL\r\n${change} (${formattedChangePercent})`,
     options: setInlineKeyboard([
@@ -34,9 +38,7 @@ const formatResponse = stock => {
   };
 };
 
-const formatValue = value => {
-  return parseFloat(value).toFixed(2).replace('.', ',');
-}
+
 
 export const getStockData = async (bot, msg, match) => {
   const {
