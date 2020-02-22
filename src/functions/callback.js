@@ -47,7 +47,7 @@ export const getCallbackResult = (bot, { id, data }) => {
 
   switch (parsedData.type) {
     case CALLBACK_TYPE.CURRENCY:
-      bot.answerCallbackQuery(id, getCurrencyMessage(parsedData));
+      bot.answerCallbackQuery(id, { text: getCurrencyMessage(parsedData) });
       break;
     default:
       bot.answerCallbackQuery(id, 'Comando não identificado, tente novamente.');
