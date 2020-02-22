@@ -1,6 +1,6 @@
 import { getSubredditGallery } from '../services/Imgur';
 import { FILE_TYPE, CALLBACK_TYPE } from '../helpers/constants';
-import { getCurrencyMessage } from './Currency';
+import { getCurrencyMessage } from './currency';
 
 export const getInlineResult = async (bot, data) => {
   const { id, query } = data;
