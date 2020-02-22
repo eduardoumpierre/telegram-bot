@@ -1,5 +1,6 @@
 import { getGlobalQuote } from '../services/Alphavantage';
 import { setInlineKeyboard } from '../helpers/options';
+import { formatValue } from '../helpers/currency';
 
 const getChangeValue = (value, showIcon = false) => {
   const isNegative = value.includes('-');
@@ -14,15 +15,13 @@ const getChangeValue = (value, showIcon = false) => {
   return `${icon} ${response}`;
 };
 
-const formatValue = value => {
-  return parseFloat(value).toFixed(2).replace('.', ',');
-}
-
 const formatResponse = stock => {
   const name = stock['01. symbol'].split('.')[0];
   const price = formatValue(stock['05. price']);
   const change = getChangeValue(formatValue(stock['09. change']), true);
-  const changePercent = getChangeValue(formatValue(stock['10. change percent']));
+  const changePercent = getChangeValue(
+    formatValue(stock['10. change percent'])
+  );
 
   return {
     response: `${name}\r\n${price} BRL\r\n${change} (${changePercent}%)`,

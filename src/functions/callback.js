@@ -1,5 +1,6 @@
 import { getSubredditGallery } from '../services/Imgur';
-import { FILE_TYPE } from '../helpers/constants';
+import { FILE_TYPE, CALLBACK_TYPE } from '../helpers/constants';
+import { getCurrencyMessage } from './Currency';
 
 export const getInlineResult = async (bot, data) => {
   const { id, query } = data;
@@ -34,5 +35,22 @@ export const getInlineResult = async (bot, data) => {
           };
         })
     );
+  }
+};
+
+/**
+ * Returns the response based on data type
+ * @param {Object} data - Object returned from callback_query event
+ */
+export const getCallbackResult = (bot, { id, data }) => {
+  const parsedData = JSON.parse(data);
+
+  switch (parsedData.type) {
+    case CALLBACK_TYPE.CURRENCY:
+      bot.answerCallbackQuery(id, getCurrencyMessage(parsedData));
+      break;
+    default:
+      bot.answerCallbackQuery(id, 'Comando não identificado, tente novamente.');
+      break;
   }
 };

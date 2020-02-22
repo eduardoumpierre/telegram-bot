@@ -1,15 +1,31 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { getBotResponse } from './src/functions/Message';
-import { getInlineResult } from './src/functions/Inline';
+import { getInlineResult, getCallbackResult } from './src/functions/callback';
 import { getStockData } from './src/functions/Stock';
 import { getWeatherForecast } from './src/functions/Weather';
+import { getCurrencyData, getCurrencyList } from './src/functions/currency';
 
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
 
+// Currency
+bot.onText(/^\/c$/i, msg => getCurrencyList(bot, msg.chat.id));
+bot.onText(/^\/c (.*)/i, (msg, match) =>
+  getCurrencyData(bot, msg.chat.id, match)
+);
+
+// Question
 bot.onText(/^\/q (.*)/i, (msg, match) => getBotResponse(bot, msg, match));
+
+// Stock
 bot.onText(/^\/s (.*)/i, (msg, match) => getStockData(bot, msg, match));
+
+// Weather
 bot.onText(/^\/w( (.*))?/i, (msg, match) =>
   getWeatherForecast(bot, msg, match)
 );
 
+// Callback query
 bot.on('inline_query', data => getInlineResult(bot, data));
+bot.on('callback_query', data => getCallbackResult(bot, data));
+
+bot.on('polling_error', err => console.log(err));
