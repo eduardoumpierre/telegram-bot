@@ -3,18 +3,25 @@ import { formatValue } from '../helpers/currency';
 import { setInlineKeyboard } from '../helpers/options';
 import { CALLBACK_TYPE } from '../helpers/constants';
 
+/**
+ * Returns the formatted currency message
+ * @param {Object} data
+ */
 export const getCurrencyMessage = data => {
   const { code, codein, bid, amount = '1' } = data;
   const resultAmount = Number(bid) * Number(amount.replace(',', '.'));
 
-  const [from, to] = [
-    `${code} ${formatValue(amount)}`,
-    `${codein} ${formatValue(resultAmount)}`,
-  ];
+  const [from, to] = [`${code} ${formatValue(amount)}`, `${codein} ${formatValue(resultAmount)}`];
 
   return `${from} = ${to}`;
 };
 
+/**
+ * Fetchs a currency exchange rate
+ * @param {Object} bot - Bot instance
+ * @param {String} chatId - Chat identifier
+ * @param {Array} match - Message string match
+ */
 export const getCurrencyData = async (bot, chatId, match) => {
   const [currency = 'USD', amount = '1'] = match[1].split(' ');
 
@@ -22,7 +29,7 @@ export const getCurrencyData = async (bot, chatId, match) => {
     const { data } = await getExchangeRate(currency);
 
     if (!data.length) {
-      bot.sendMessage(id, 'Verifique o código da moeda e tente novamente.');
+      bot.sendMessage(chatId, 'Verifique o código da moeda e tente novamente.');
       return;
     }
 
@@ -32,6 +39,11 @@ export const getCurrencyData = async (bot, chatId, match) => {
   }
 };
 
+/**
+ * Fetchs the currency list
+ * @param {Object} bot - Bot instance
+ * @param {String} chatId - Chat identifier
+ */
 export const getCurrencyList = async (bot, chatId) => {
   try {
     const { data } = await getCurrencyOptions();

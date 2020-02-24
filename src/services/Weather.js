@@ -1,6 +1,12 @@
-import Axios from 'axios';
+import axios from 'axios';
 
-const API_URL = `http://api.weatherstack.com/current?access_key=${process.env.WEATHERSTACK_API_KEY}&units=m`;
+const API_URL = 'http://api.weatherstack.com';
 
 export const getCurrentWeather = city =>
-  Axios.get(API_URL, { params: { query: encodeURI(city) } });
+  axios.get(`${API_URL}/current`, {
+    params: {
+      units: 'm',
+      query: encodeURI(city),
+      access_key: process.env.WEATHERSTACK_API_KEY,
+    },
+  });
