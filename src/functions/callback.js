@@ -1,9 +1,14 @@
-import { getSubredditGallery } from '../services/Imgur';
+import { getSubredditGallery } from '../services/imgur';
 import { FILE_TYPE, CALLBACK_TYPE } from '../helpers/constants';
 import { getCurrencyMessage } from './currency';
 
-export const getInlineResult = async (bot, data) => {
-  const { id, query } = data;
+/**
+ * Returns the image list
+ * @param {Object} bot - Bot instance
+ * @param {Object} request - inline_query event
+ */
+export const getInlineResult = async (bot, request) => {
+  const { id, query } = request;
 
   if (query) {
     const response = await getSubredditGallery(query);
@@ -16,9 +21,7 @@ export const getInlineResult = async (bot, data) => {
       id,
       data
         .filter(
-          item =>
-            !item.is_album &&
-            (item.type === FILE_TYPE.PHOTO || item.type === FILE_TYPE.GIF)
+          item => !item.is_album && (item.type === FILE_TYPE.PHOTO || item.type === FILE_TYPE.GIF)
         )
         .sort(() => 0.5 - Math.random())
         .slice(0, 20)
@@ -40,7 +43,8 @@ export const getInlineResult = async (bot, data) => {
 
 /**
  * Returns the response based on data type
- * @param {Object} data - Object returned from callback_query event
+ * @param {Object} bot - Bot instance
+ * @param {Object} data - callback_query event
  */
 export const getCallbackResult = (bot, { id, data }) => {
   const parsedData = JSON.parse(data);

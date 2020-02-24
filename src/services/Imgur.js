@@ -1,4 +1,4 @@
-import Axios from 'axios';
+import axios from 'axios';
 
 const config = {
   headers: {
@@ -6,5 +6,6 @@ const config = {
   },
 };
 
-export const getSubredditGallery = query =>
-  Axios.get(`https://api.imgur.com/3/gallery/r/${query}`, config);
+const API_URL = 'https://api.imgur.com';
+
+export const getSubredditGallery = query => axios.get(`${API_URL}/3/gallery/r/${query}`, config);

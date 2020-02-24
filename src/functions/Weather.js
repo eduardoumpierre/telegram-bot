@@ -1,4 +1,4 @@
-import { getCurrentWeather } from '../services/Weather';
+import { getCurrentWeather } from '../services/weather';
 import { setInlineKeyboard } from '../helpers/options';
 
 export const getWeatherForecast = async (bot, msg, match) => {
@@ -13,18 +13,10 @@ export const getWeatherForecast = async (bot, msg, match) => {
 
     const {
       location: { name },
-      current: {
-        precip,
-        feelslike,
-        temperature,
-      }
+      current: { precip, feelslike, temperature },
     } = data;
 
-    const response = [
-      name,
-      `🌡️ ${temperature}ºC (ST ${feelslike}ºC)`,
-      `☂️ ${precip}mm`
-    ];
+    const response = [name, `🌡️ ${temperature}ºC (ST ${feelslike}ºC)`, `☂️ ${precip}mm`];
 
     const options = setInlineKeyboard([
       {

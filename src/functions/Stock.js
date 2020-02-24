@@ -1,4 +1,4 @@
-import { getGlobalQuote } from '../services/Alphavantage';
+import { getGlobalQuote } from '../services/alphavantage';
 import { setInlineKeyboard } from '../helpers/options';
 import { formatValue } from '../helpers/currency';
 
@@ -19,9 +19,7 @@ const formatResponse = stock => {
   const name = stock['01. symbol'].split('.')[0];
   const price = formatValue(stock['05. price']);
   const change = getChangeValue(formatValue(stock['09. change']), true);
-  const changePercent = getChangeValue(
-    formatValue(stock['10. change percent'])
-  );
+  const changePercent = getChangeValue(formatValue(stock['10. change percent']));
 
   return {
     response: `${name}\r\n${price} BRL\r\n${change} (${changePercent}%)`,
@@ -42,19 +40,13 @@ export const getStockData = async (bot, msg, match) => {
   try {
     const { data } = await getGlobalQuote(match[1]);
 
-    if (data.hasOwnProperty('Error Message')) {
-      bot.sendMessage(
-        id,
-        'Erro na requisição. Verifique o nome da ação e tente novamente.'
-      );
+    if (Object.prototype.hasOwnProperty.call(data, 'Error Message')) {
+      bot.sendMessage(id, 'Erro na requisição. Verifique o nome da ação e tente novamente.');
       return;
     }
 
-    if (data.hasOwnProperty('Note')) {
-      bot.sendMessage(
-        id,
-        'Limite de requisições atingido. Tente novamente em 1 minuto.'
-      );
+    if (Object.prototype.hasOwnProperty.call(data, 'Note')) {
+      bot.sendMessage(id, 'Limite de requisições atingido. Tente novamente em 1 minuto.');
       return;
     }
 
