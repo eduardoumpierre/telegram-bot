@@ -23,21 +23,21 @@ export const sendBotResponse = async (bot, msg, match) => {
  * @param {Array} match - Message string match
  */
 export const sendMessageToAdmins = async (bot, msg, match) => {
-  const { id, type } = msg.chat;
+  const { id } = msg.chat;
 
-  if (type !== 'group') {
+  try {
+    const admins = await bot.getChatAdministrators(id);
+
+    const mentions = admins
+      .filter(({ user }) => !user.is_bot)
+      .reduce((prev, { user }) => `${prev} [${user.first_name}](tg://user?id=${user.id})`, '');
+
+    const message = `${mentions} ${match[1]}`;
+
+    bot.sendMessage(id, message, {
+      parse_mode: 'MarkdownV2',
+    });
+  } catch (e) {
     bot.sendMessage(id, 'O comando só funciona em grupos.');
   }
-
-  const admins = await bot.getChatAdministrators(id);
-  const mentions = admins.reduce(
-    (prev, { user }) => `${prev} [${user.first_name}](tg://user?id=${user.id})`,
-    ''
-  );
-
-  const message = `${mentions} ${match[1]}`;
-
-  bot.sendMessage(id, message, {
-    parse_mode: 'MarkdownV2',
-  });
 };
