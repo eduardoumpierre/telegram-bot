@@ -1,8 +1,8 @@
 import { SessionsClient } from 'dialogflow';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 export const getResponse = async message => {
-  const sessionId = uuid.v4();
+  const sessionId = uuidv4();
   const projectId = process.env.DIALOGFLOW_PROJECT_ID;
 
   const credentials = {

@@ -1,4 +1,4 @@
-import { getResponse } from './Dialogflow';
+import { getResponse } from './dialogflow';
 
 export const getBotResponse = async (bot, msg, match) => {
   const {
