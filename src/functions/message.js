@@ -30,12 +30,12 @@ export const sendMessageToAdmins = async (bot, msg, match) => {
 
     const mentions = admins
       .filter(({ user }) => !user.is_bot)
-      .reduce((prev, { user }) => `${prev} [${user.first_name}](tg://user?id=${user.id})`, '');
+      .reduce((prev, { user }) => `${prev} <a href="tg://user?id=${user.id}">${user.first_name}</a>`, '');
 
     const message = `${mentions} ${match[1]}`;
 
     bot.sendMessage(id, message, {
-      parse_mode: 'MarkdownV2',
+      parse_mode: 'HTML',
     });
   } catch (e) {
     bot.sendMessage(id, 'O comando só funciona em grupos.');
