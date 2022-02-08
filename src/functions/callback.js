@@ -1,5 +1,5 @@
-import { getSubredditGallery } from '../services/imgur';
-import { FILE_TYPE, CALLBACK_TYPE } from '../helpers/constants';
+import { getSubredditGallery } from '../services/media';
+import { CALLBACK_TYPE } from '../helpers/constants';
 import { getCurrencyMessage } from './currency';
 
 /**
@@ -11,33 +11,14 @@ export const getInlineResult = async (bot, request) => {
   const { id, query } = request;
 
   if (query) {
-    const response = await getSubredditGallery(query);
+    try {
+      const response = await getSubredditGallery(query);
+      const slicedResponse = response.sort(() => 0.5 - Math.random()).slice(0, 20);
 
-    const {
-      data: { data },
-    } = response;
-
-    bot.answerInlineQuery(
-      id,
-      data
-        .filter(
-          item => !item.is_album && (item.type === FILE_TYPE.PHOTO || item.type === FILE_TYPE.GIF)
-        )
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 20)
-        .map(item => {
-          const type = item.type === FILE_TYPE.PHOTO ? 'photo' : 'gif';
-
-          return {
-            type,
-            id: item.id,
-            [`${type}_url`]: item.link,
-            thumb_url: item.link,
-            title: item.title || '',
-            description: item.description || '',
-          };
-        })
-    );
+      bot.answerInlineQuery(id, slicedResponse);
+    } catch (e) {
+      console.log('Error', e);
+    }
   }
 };
 

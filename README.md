@@ -7,7 +7,7 @@ A telegram bot which uses dialogflow to answer an user's input.
 - Dialogflow integration.
 - Stock search.
 - Exchange rate search.
-- Imgur inline query search.
+- Reddit media inline query search.
 - Weather forecast.
 - Mention all administrators in a group.
 
