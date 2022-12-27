@@ -29,3 +29,4 @@ bot.on('callback_query', data => getCallbackResult(bot, data));
 
 // Error debug
 bot.on('polling_error', err => console.log(err));
+bot.on('webhook_error', err => console.log(err));
