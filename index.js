@@ -5,14 +5,14 @@ import { getStockData } from './src/functions/stock';
 import { getWeatherForecast } from './src/functions/weather';
 import { getCurrencyData, getCurrencyList } from './src/functions/currency';
 
-const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: { autoStart: false } });
 
 const initialize = async () => {
+  console.log('Stop polling...');
+
   await bot.stopPolling({ cancel: true });
 
-  const updates = await bot.getUpdates();
-
-  console.log({ updates });
+  console.log('Start polling...');
 
   await bot.startPolling({ restart: true, polling: true });
 
