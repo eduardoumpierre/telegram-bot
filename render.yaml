@@ -1,0 +1,3 @@
+scaling:
+  minInstances: 1
+  maxInstances: 1
