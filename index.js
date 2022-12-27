@@ -5,7 +5,19 @@ import { getStockData } from './src/functions/stock';
 import { getWeatherForecast } from './src/functions/weather';
 import { getCurrencyData, getCurrencyList } from './src/functions/currency';
 
-const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
+
+const initialize = async () => {
+  await bot.stopPolling({ cancel: true });
+
+  const updates = await bot.getUpdates();
+
+  console.log({ updates });
+
+  await bot.startPolling({ restart: true, polling: true });
+
+  console.log('Bot is alive');
+};
 
 // Currency
 bot.onText(/^\/c$/i, msg => getCurrencyList(bot, msg.chat.id));
@@ -30,3 +42,5 @@ bot.on('callback_query', data => getCallbackResult(bot, data));
 // Error debug
 bot.on('polling_error', err => console.log(err));
 bot.on('webhook_error', err => console.log(err));
+
+initialize();
